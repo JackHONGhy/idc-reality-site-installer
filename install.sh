@@ -144,7 +144,7 @@ prepare_paths() {
   NGINX_CONF=""
 
   mkdir -p "$SITE_ROOT"
-  mkdir -p "$SITE_ROOT/en" "$SITE_ROOT/en/legal" "$SITE_ROOT/en/status" "$SITE_ROOT/assets" "$SITE_ROOT/legal" "$SITE_ROOT/status" "$SITE_ROOT/.well-known"
+  mkdir -p "$SITE_ROOT/en" "$SITE_ROOT/en/legal" "$SITE_ROOT/en/status" "$SITE_ROOT/en/products" "$SITE_ROOT/en/login" "$SITE_ROOT/en/register" "$SITE_ROOT/en/console" "$SITE_ROOT/en/support" "$SITE_ROOT/en/docs" "$SITE_ROOT/en/announcements" "$SITE_ROOT/assets" "$SITE_ROOT/legal" "$SITE_ROOT/status" "$SITE_ROOT/products" "$SITE_ROOT/login" "$SITE_ROOT/register" "$SITE_ROOT/console" "$SITE_ROOT/support" "$SITE_ROOT/docs" "$SITE_ROOT/announcements" "$SITE_ROOT/.well-known"
 
   if [ -d /etc/nginx/sites-available ] && [ -d /etc/nginx/sites-enabled ]; then
     NGINX_CONF="/etc/nginx/sites-available/${DOMAIN}.conf"
@@ -232,6 +232,7 @@ h1 { font-size: clamp(42px, 6vw, 76px); line-height: 1.02; margin: 18px 0 22px; 
 }
 .btn.primary { background: white; color: var(--primary-dark); }
 .btn.secondary { border: 1px solid rgba(255,255,255,.34); color: white; }
+.auth-card .btn.primary, .contact-box .btn.primary, footer .btn.primary { background: var(--primary); color: white; }
 .infra-card {
   background: rgba(255,255,255,.1);
   border: 1px solid rgba(255,255,255,.2);
@@ -274,10 +275,27 @@ h2 { font-size: clamp(28px, 4vw, 44px); line-height: 1.1; margin: 0; letter-spac
 .status-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #e9fbf7; color: #027a62; font-weight: 800; font-size: 13px; }
 .status-pill::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #12b886; }
 .contact-box { display: grid; grid-template-columns: 1fr auto; gap: 20px; align-items: center; background: white; border: 1px solid var(--line); border-radius: 14px; padding: 28px; }
+.spec-table { width: 100%; border-collapse: collapse; overflow: hidden; border-radius: 12px; background: white; border: 1px solid var(--line); }
+.spec-table th, .spec-table td { padding: 14px 16px; border-bottom: 1px solid var(--line); text-align: left; }
+.spec-table th { background: #eef3fb; color: #344054; font-size: 13px; text-transform: uppercase; }
+.spec-table tr:last-child td { border-bottom: 0; }
+.notice-list { display: grid; gap: 12px; }
+.notice { display: flex; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--line); color: #344054; }
+.notice:last-child { border-bottom: 0; }
+.auth-wrap { min-height: calc(100vh - 160px); display: grid; place-items: center; padding: 56px 0; }
+.auth-card { width: min(460px, calc(100vw - 32px)); background: white; border: 1px solid var(--line); border-radius: 14px; padding: 28px; box-shadow: 0 18px 60px rgba(16,24,40,.08); }
+.field { display: grid; gap: 8px; margin-top: 16px; font-size: 14px; font-weight: 700; }
+.field input, .field textarea { width: 100%; min-height: 44px; border: 1px solid var(--line); border-radius: 8px; padding: 10px 12px; font: inherit; }
+.field textarea { min-height: 110px; resize: vertical; }
+.console-shell { display: grid; grid-template-columns: 240px 1fr; gap: 22px; align-items: start; }
+.console-nav { background: white; border: 1px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 6px; }
+.console-nav span { padding: 10px 12px; border-radius: 8px; color: #475467; }
+.console-nav span.active { background: #eef4ff; color: var(--primary-dark); font-weight: 800; }
+.kbd { display: inline-flex; padding: 2px 7px; border: 1px solid var(--line); border-radius: 6px; background: #f8fafc; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
 footer { padding: 32px 0; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; background: white; }
 footer .container { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
 @media (max-width: 900px) {
-  .hero .container, .grid-3, .grid-2, .contact-box { grid-template-columns: 1fr; }
+  .hero .container, .grid-3, .grid-2, .contact-box, .console-shell { grid-template-columns: 1fr; }
   .nav-inner { height: auto; padding: 14px 0; align-items: flex-start; }
   .nav-links { flex-wrap: wrap; gap: 12px; }
   .metrics { grid-template-columns: 1fr; }
@@ -289,6 +307,13 @@ EOF
 (() => {
   const year = document.querySelector('[data-year]');
   if (year) year.textContent = new Date().getFullYear();
+  document.querySelectorAll('[data-static-form]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const target = form.querySelector('[data-form-message]');
+      if (target) target.textContent = form.getAttribute('data-success') || 'Request received. Please contact support for the next step.';
+    });
+  });
 })();
 EOF
 }
@@ -317,7 +342,7 @@ render_site() {
   <nav class="nav"><div class="container nav-inner">
     <a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a>
     <div class="nav-links">
-      <a href="#services">服务</a><a href="#network">网络</a><a href="#sla">SLA</a><a href="#contact">联系</a>
+      <a href="/products/cloud.html">产品</a><a href="/docs/">文档</a><a href="/support/">支持</a><a href="/status/">状态</a><a href="/login/">登录</a>
       <span class="lang"><a class="active" href="/">中文</a><a href="/en/">English</a></span>
     </div>
   </div></nav>
@@ -326,7 +351,7 @@ render_site() {
       <span class="eyebrow">Reliable Infrastructure</span>
       <h1>面向企业业务的稳定云与 IDC 基础设施</h1>
       <p>${brand_cn_html} 为企业提供云服务器、独立服务器、机柜托管、BGP 网络接入和持续运维支持，帮助业务在安全、稳定、可扩展的环境中运行。</p>
-      <div class="hero-actions"><a class="btn primary" href="#contact">获取方案</a><a class="btn secondary" href="#network">查看网络能力</a></div>
+      <div class="hero-actions"><a class="btn primary" href="/register/">获取方案</a><a class="btn secondary" href="/login/">客户登录</a></div>
     </div>
     <div class="infra-card">
       <div class="rack">
@@ -347,6 +372,17 @@ render_site() {
         <article class="card"><h3>机柜托管</h3><p>标准机柜、电力、带宽、IP 资源和现场运维支持。</p><div class="list"><span>规范化上架与资产记录</span><span>远程重启与工单支持</span></div></article>
       </div>
     </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>常用交付规格</h2><p>公开展示常见配置，让访客能判断这是一家真实的基础设施服务网站，而不是空白落地页。</p></div>
+      <table class="spec-table">
+        <thead><tr><th>产品</th><th>计算资源</th><th>存储</th><th>网络</th><th>适用场景</th></tr></thead>
+        <tbody>
+          <tr><td>云服务器 S2</td><td>2 vCPU / 4 GB</td><td>60 GB NVMe</td><td>1 Gbps shared</td><td>企业官网、轻量 API</td></tr>
+          <tr><td>云服务器 C4</td><td>4 vCPU / 8 GB</td><td>120 GB NVMe</td><td>1 Gbps shared</td><td>业务后台、数据库从库</td></tr>
+          <tr><td>独立服务器 D1</td><td>8C / 32 GB</td><td>2 x 960 GB SSD</td><td>10 TB transfer</td><td>高负载应用、私有部署</td></tr>
+        </tbody>
+      </table>
+    </div></section>
     <section id="network" class="band"><div class="container">
       <div class="section-head"><h2>网络与安全</h2><p>面向生产业务设计的网络接入、监控和基础安全策略。</p></div>
       <div class="grid-3">
@@ -360,6 +396,22 @@ render_site() {
       <div class="grid-2">
         <article class="card"><span class="status-pill">Operational</span><h3>平台状态</h3><p>核心网络、计算资源和客户支持服务当前运行正常。</p></article>
         <article class="card"><h3>响应流程</h3><p>紧急故障优先响应，常规需求通过工单系统跟踪，所有变更保留操作记录。</p></article>
+      </div>
+    </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>客户门户</h2><p>客户可以通过门户查看服务、账单、工单、网络状态和维护公告。演示页面不会采集真实密码。</p></div>
+      <div class="grid-3">
+        <article class="card"><h3>服务管理</h3><p>查看实例状态、到期时间、带宽用量和基础资源信息。</p></article>
+        <article class="card"><h3>工单支持</h3><p>提交故障、变更、续费、网络排查和远程协助请求。</p></article>
+        <article class="card"><h3>维护公告</h3><p>展示线路维护、机房变更、证书续期和安全通知。</p></article>
+      </div>
+    </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>最新公告</h2><p>正常运营的网站通常会展示清晰的维护和服务通知。</p></div>
+      <div class="card notice-list">
+        <div class="notice"><span>核心网络例行巡检完成，未发现异常。</span><strong>2026-06-14</strong></div>
+        <div class="notice"><span>新增云服务器 NVMe 存储池，适合数据库和低延迟业务。</span><strong>2026-06-08</strong></div>
+        <div class="notice"><span>客户门户工单分类已更新，支持网络、账务、硬件和系统协助。</span><strong>2026-06-01</strong></div>
       </div>
     </div></section>
     <section id="contact"><div class="container">
@@ -387,7 +439,7 @@ EOF
   <nav class="nav"><div class="container nav-inner">
     <a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a>
     <div class="nav-links">
-      <a href="#services">Services</a><a href="#network">Network</a><a href="#sla">SLA</a><a href="#contact">Contact</a>
+      <a href="/en/products/cloud.html">Products</a><a href="/en/docs/">Docs</a><a href="/en/support/">Support</a><a href="/en/status/">Status</a><a href="/en/login/">Login</a>
       <span class="lang"><a href="/">中文</a><a class="active" href="/en/">English</a></span>
     </div>
   </div></nav>
@@ -396,7 +448,7 @@ EOF
       <span class="eyebrow">Reliable Infrastructure</span>
       <h1>Stable cloud and IDC infrastructure for production workloads</h1>
       <p>${brand_en_html} delivers cloud servers, dedicated servers, colocation, BGP connectivity and managed support for teams that need predictable infrastructure.</p>
-      <div class="hero-actions"><a class="btn primary" href="#contact">Request a plan</a><a class="btn secondary" href="#network">View network</a></div>
+      <div class="hero-actions"><a class="btn primary" href="/en/register/">Request a plan</a><a class="btn secondary" href="/en/login/">Client login</a></div>
     </div>
     <div class="infra-card">
       <div class="rack">
@@ -417,6 +469,17 @@ EOF
         <article class="card"><h3>Colocation</h3><p>Rack space, power, bandwidth, IP resources and remote-hands support.</p><div class="list"><span>Structured deployment and asset tracking</span><span>Remote reboot and ticket support</span></div></article>
       </div>
     </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>Common Delivery Profiles</h2><p>Clear public profiles help visitors understand the available infrastructure options.</p></div>
+      <table class="spec-table">
+        <thead><tr><th>Product</th><th>Compute</th><th>Storage</th><th>Network</th><th>Use case</th></tr></thead>
+        <tbody>
+          <tr><td>Cloud Server S2</td><td>2 vCPU / 4 GB</td><td>60 GB NVMe</td><td>1 Gbps shared</td><td>Websites and lightweight APIs</td></tr>
+          <tr><td>Cloud Server C4</td><td>4 vCPU / 8 GB</td><td>120 GB NVMe</td><td>1 Gbps shared</td><td>Business systems and database replicas</td></tr>
+          <tr><td>Dedicated Server D1</td><td>8C / 32 GB</td><td>2 x 960 GB SSD</td><td>10 TB transfer</td><td>High-load apps and private deployments</td></tr>
+        </tbody>
+      </table>
+    </div></section>
     <section id="network" class="band"><div class="container">
       <div class="section-head"><h2>Network and Security</h2><p>Connectivity, monitoring and baseline security controls designed for production services.</p></div>
       <div class="grid-3">
@@ -430,6 +493,22 @@ EOF
       <div class="grid-2">
         <article class="card"><span class="status-pill">Operational</span><h3>Platform Status</h3><p>Core network, compute resources and customer support are operating normally.</p></article>
         <article class="card"><h3>Response Workflow</h3><p>Urgent incidents are prioritized, regular requests are tracked by tickets, and changes are logged.</p></article>
+      </div>
+    </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>Client Portal</h2><p>Customers can review services, billing, tickets, network status and maintenance notices. Demo pages do not collect real passwords.</p></div>
+      <div class="grid-3">
+        <article class="card"><h3>Service Management</h3><p>Review instance status, expiration dates, bandwidth usage and resource details.</p></article>
+        <article class="card"><h3>Ticket Support</h3><p>Submit incident, change, billing, network and remote-hands requests.</p></article>
+        <article class="card"><h3>Maintenance Notices</h3><p>Publish route maintenance, facility changes, certificate renewals and security notices.</p></article>
+      </div>
+    </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>Latest Notices</h2><p>A real operations website should show service updates and maintenance history.</p></div>
+      <div class="card notice-list">
+        <div class="notice"><span>Core network routine inspection completed with no abnormalities.</span><strong>2026-06-14</strong></div>
+        <div class="notice"><span>New NVMe storage pool is available for database and low-latency workloads.</span><strong>2026-06-08</strong></div>
+        <div class="notice"><span>Client portal ticket categories now include network, billing, hardware and system assistance.</span><strong>2026-06-01</strong></div>
       </div>
     </div></section>
     <section id="contact"><div class="container">
@@ -466,6 +545,78 @@ EOF
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Service Status - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/">Home</a><a href="/status/">中文</a></div></div></nav><section><div class="container"><h1>Service Status</h1><div class="grid-3"><div class="card"><span class="status-pill">Operational</span><h3>Core Network</h3><p>Operating normally</p></div><div class="card"><span class="status-pill">Operational</span><h3>Compute Resources</h3><p>Operating normally</p></div><div class="card"><span class="status-pill">Operational</span><h3>Customer Support</h3><p>Operating normally</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>${domain_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
 EOF
 
+  cat > "$SITE_ROOT/products/cloud.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>云服务器 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/products/cloud.html">云服务器</a><a href="/products/dedicated.html">独立服务器</a><a href="/products/colocation.html">托管</a><a href="/login/">登录</a><a href="/en/products/cloud.html">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>云服务器</h1><p>适合企业官网、业务后台、API 服务、轻量数据库和持续集成环境。</p></div><table class="spec-table"><thead><tr><th>型号</th><th>CPU</th><th>内存</th><th>系统盘</th><th>带宽</th><th>交付</th></tr></thead><tbody><tr><td>S2</td><td>2 vCPU</td><td>4 GB</td><td>60 GB NVMe</td><td>1 Gbps shared</td><td>15 分钟内</td></tr><tr><td>C4</td><td>4 vCPU</td><td>8 GB</td><td>120 GB NVMe</td><td>1 Gbps shared</td><td>15 分钟内</td></tr><tr><td>M8</td><td>8 vCPU</td><td>16 GB</td><td>240 GB NVMe</td><td>2 Gbps shared</td><td>按需开通</td></tr></tbody></table><div class="grid-3" style="margin-top:18px"><div class="card"><h3>镜像支持</h3><p>Ubuntu、Debian、AlmaLinux、Rocky Linux 与 Windows Server 可选。</p></div><div class="card"><h3>备份策略</h3><p>支持快照、周期备份和迁移窗口安排。</p></div><div class="card"><h3>网络选项</h3><p>可选独立 IPv4、IPv6、BGP 与固定带宽方案。</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/register/">申请开通</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/products/dedicated.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>独立服务器 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/products/cloud.html">云服务器</a><a href="/products/dedicated.html">独立服务器</a><a href="/support/">支持</a><a href="/en/products/dedicated.html">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>独立服务器</h1><p>独享硬件资源，适合数据库、虚拟化、游戏服务、私有部署和高并发业务。</p></div><div class="grid-3"><div class="card"><h3>D1 标准型</h3><p>8C / 32 GB / 2 x SSD，适合业务独立部署。</p></div><div class="card"><h3>D2 性能型</h3><p>16C / 64 GB / NVMe，可承载高并发与低延迟任务。</p></div><div class="card"><h3>定制型</h3><p>按 CPU、内存、磁盘、IP 和带宽需求定制。</p></div></div><section style="padding-bottom:0"><div class="card"><h3>交付流程</h3><div class="list"><span>确认配置、线路、IP 数量和交付时间</span><span>完成硬件检测、系统安装和网络连通性测试</span><span>交付资产信息、远程管理方式和维护窗口</span></div></div></section></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/register/">咨询配置</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/products/colocation.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>机柜托管 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/products/cloud.html">云服务器</a><a href="/products/colocation.html">机柜托管</a><a href="/status/">状态</a><a href="/en/products/colocation.html">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>机柜托管</h1><p>提供上架、布线、电力、带宽、IP、远程协助和资产记录服务。</p></div><div class="grid-3"><div class="card"><h3>1U / 2U 托管</h3><p>适合少量自有服务器上架和远程维护。</p></div><div class="card"><h3>半柜 / 整柜</h3><p>适合规模化部署、独立交换设备和专属网络规划。</p></div><div class="card"><h3>远程协助</h3><p>支持电源重启、线缆检查、硬盘更换和现场拍照记录。</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/support/">联系 NOC</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/login/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>客户登录 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/register/">申请开通</a><a href="/support/">支持中心</a><a href="/en/login/">English</a></div></div></nav><main class="auth-wrap"><form class="auth-card" data-static-form data-success="客户门户入口已收到请求。此静态页面不会处理密码，请通过支持邮箱联系团队。"><h1>客户门户登录</h1><p>管理云服务器、独立服务器、工单、账单和维护通知。</p><label class="field">邮箱<input type="email" placeholder="name@example.com" autocomplete="email"></label><label class="field">密码<input type="password" placeholder="请输入密码" autocomplete="current-password"></label><button class="btn primary" style="width:100%;margin-top:20px" type="submit">登录</button><p class="codex-muted" data-form-message style="color:#667085"></p><p style="color:#667085;font-size:14px">忘记密码？请联系 <a href="mailto:${email_html}">${email_html}</a></p></form></main><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/legal/privacy.html">隐私政策</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/register/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>申请开通 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/products/cloud.html">产品</a><a href="/login/">登录</a><a href="/en/register/">English</a></div></div></nav><main class="auth-wrap"><form class="auth-card" data-static-form data-success="申请信息已记录在当前页面。请通过页面邮箱提交正式需求。"><h1>申请开通服务</h1><p>填写业务类型、区域、资源和带宽需求，便于售前给出建议。</p><label class="field">联系邮箱<input type="email" placeholder="name@company.com"></label><label class="field">需求说明<textarea placeholder="例如：云服务器 4C8G，香港/新加坡线路，月流量 5TB"></textarea></label><button class="btn primary" style="width:100%;margin-top:20px" type="submit">提交咨询</button><p data-form-message style="color:#027a62"></p></form></main><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>${email_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/console/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>控制台概览 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/login/">登录</a><a href="/support/">工单</a><a href="/en/console/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>控制台概览</h1><p>用于展示客户门户结构。真实业务系统可在后续接入认证和 API。</p></div><div class="console-shell"><aside class="console-nav"><span class="active">总览</span><span>云服务器</span><span>独立服务器</span><span>账单</span><span>工单</span><span>安全设置</span></aside><div><div class="grid-3"><div class="card"><h3>运行服务</h3><p><strong>12</strong> 个资源处于正常状态</p></div><div class="card"><h3>本月流量</h3><p><strong>8.4 TB</strong> 已记录</p></div><div class="card"><h3>待处理工单</h3><p><strong>0</strong> 个紧急事项</p></div></div><div class="card" style="margin-top:18px"><h3>最近操作</h3><div class="notice-list"><div class="notice"><span>云服务器 C4 快照完成</span><strong>09:20</strong></div><div class="notice"><span>工单分类规则更新</span><strong>昨天</strong></div></div></div></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>Client Portal Preview</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/support/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>支持中心 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/docs/">文档</a><a href="/status/">状态</a><a href="/en/support/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>支持中心</h1><p>7x24 NOC、工单、远程协助和变更窗口管理。</p></div><div class="grid-3"><div class="card"><h3>故障工单</h3><p>网络中断、丢包、实例异常、硬件告警等紧急问题。</p></div><div class="card"><h3>变更请求</h3><p>系统重装、带宽调整、IP 增减、路由策略变更。</p></div><div class="card"><h3>账务支持</h3><p>续费、发票、订单变更和合同信息核对。</p></div></div><div class="card" style="margin-top:18px"><h3>联系方式</h3><p>支持邮箱：<a href="mailto:${email_html}">${email_html}</a></p><p>建议提交时附带资源 ID、故障时间、源地址、目标地址和测试结果。</p></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/login/">客户登录</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/docs/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>文档中心 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/products/cloud.html">产品</a><a href="/support/">支持</a><a href="/en/docs/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>文档中心</h1><p>常见交付、网络、系统和安全操作指南。</p></div><div class="grid-3"><div class="card"><h3>快速开始</h3><p>登录门户、查看服务、绑定安全邮箱、创建工单。</p><p><span class="kbd">GETTING STARTED</span></p></div><div class="card"><h3>网络排查</h3><p>如何提交 MTR、Ping、Traceroute 和端口测试结果。</p><p><span class="kbd">NETWORK</span></p></div><div class="card"><h3>安全建议</h3><p>SSH 密钥、系统更新、防火墙和备份策略建议。</p><p><span class="kbd">SECURITY</span></p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>Docs</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/announcements/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>公告 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/status/">状态</a><a href="/support/">支持</a><a href="/en/announcements/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>公告</h1><p>维护窗口、服务调整和安全通知。</p></div><div class="card notice-list"><div class="notice"><span>核心网络例行巡检完成，未发现异常。</span><strong>2026-06-14</strong></div><div class="notice"><span>新增云服务器 NVMe 存储池。</span><strong>2026-06-08</strong></div><div class="notice"><span>客户门户工单分类已更新。</span><strong>2026-06-01</strong></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>Announcements</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/products/cloud.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Cloud Servers - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/products/cloud.html">Cloud</a><a href="/en/products/dedicated.html">Dedicated</a><a href="/en/products/colocation.html">Colocation</a><a href="/en/login/">Login</a><a href="/products/cloud.html">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Cloud Servers</h1><p>Elastic virtual machines for websites, APIs, back-office systems and lightweight databases.</p></div><table class="spec-table"><thead><tr><th>Plan</th><th>CPU</th><th>Memory</th><th>Disk</th><th>Network</th><th>Delivery</th></tr></thead><tbody><tr><td>S2</td><td>2 vCPU</td><td>4 GB</td><td>60 GB NVMe</td><td>1 Gbps shared</td><td>Within 15 minutes</td></tr><tr><td>C4</td><td>4 vCPU</td><td>8 GB</td><td>120 GB NVMe</td><td>1 Gbps shared</td><td>Within 15 minutes</td></tr><tr><td>M8</td><td>8 vCPU</td><td>16 GB</td><td>240 GB NVMe</td><td>2 Gbps shared</td><td>On request</td></tr></tbody></table></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/register/">Request service</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/products/dedicated.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Dedicated Servers - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/products/cloud.html">Cloud</a><a href="/en/products/dedicated.html">Dedicated</a><a href="/en/support/">Support</a><a href="/products/dedicated.html">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Dedicated Servers</h1><p>Dedicated hardware for databases, virtualization, private deployments and high-concurrency workloads.</p></div><div class="grid-3"><div class="card"><h3>D1 Standard</h3><p>8C / 32 GB / 2 x SSD for isolated business deployments.</p></div><div class="card"><h3>D2 Performance</h3><p>16C / 64 GB / NVMe for latency-sensitive workloads.</p></div><div class="card"><h3>Custom Build</h3><p>CPU, memory, disks, IP allocation and bandwidth can be tailored.</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/register/">Request quote</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/products/colocation.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Colocation - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/products/cloud.html">Cloud</a><a href="/en/products/colocation.html">Colocation</a><a href="/en/status/">Status</a><a href="/products/colocation.html">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Colocation</h1><p>Rack space, cabling, power, bandwidth, IP resources, remote-hands and asset records.</p></div><div class="grid-3"><div class="card"><h3>1U / 2U</h3><p>For small hardware deployments and remote maintenance.</p></div><div class="card"><h3>Half / Full Rack</h3><p>For scaled deployments and dedicated network planning.</p></div><div class="card"><h3>Remote Hands</h3><p>Power cycle, cable checks, disk replacement and on-site photo records.</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/support/">Contact NOC</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/login/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Client Login - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/register/">Request service</a><a href="/en/support/">Support</a><a href="/login/">中文</a></div></div></nav><main class="auth-wrap"><form class="auth-card" data-static-form data-success="The static portal page does not process passwords. Please contact support for access."><h1>Client Portal Login</h1><p>Manage cloud servers, dedicated servers, tickets, billing and maintenance notices.</p><label class="field">Email<input type="email" placeholder="name@example.com" autocomplete="email"></label><label class="field">Password<input type="password" placeholder="Password" autocomplete="current-password"></label><button class="btn primary" style="width:100%;margin-top:20px" type="submit">Login</button><p data-form-message style="color:#667085"></p><p style="color:#667085;font-size:14px">Forgot password? Contact <a href="mailto:${email_html}">${email_html}</a></p></form></main><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/legal/privacy.html">Privacy</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/register/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Request Service - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/products/cloud.html">Products</a><a href="/en/login/">Login</a><a href="/register/">中文</a></div></div></nav><main class="auth-wrap"><form class="auth-card" data-static-form data-success="Your request has been noted on this static page. Please send formal requirements by email."><h1>Request Service</h1><p>Share your region, resources and bandwidth needs so our team can recommend a plan.</p><label class="field">Email<input type="email" placeholder="name@company.com"></label><label class="field">Requirements<textarea placeholder="Example: 4C8G cloud server, Singapore route, 5 TB monthly transfer"></textarea></label><button class="btn primary" style="width:100%;margin-top:20px" type="submit">Submit request</button><p data-form-message style="color:#027a62"></p></form></main><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>${email_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/console/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Console Overview - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/login/">Login</a><a href="/en/support/">Tickets</a><a href="/console/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Console Overview</h1><p>A static preview of the client portal structure. Authentication and APIs can be integrated later.</p></div><div class="console-shell"><aside class="console-nav"><span class="active">Overview</span><span>Cloud Servers</span><span>Dedicated</span><span>Billing</span><span>Tickets</span><span>Security</span></aside><div><div class="grid-3"><div class="card"><h3>Active Services</h3><p><strong>12</strong> resources operating normally</p></div><div class="card"><h3>Monthly Transfer</h3><p><strong>8.4 TB</strong> recorded</p></div><div class="card"><h3>Open Tickets</h3><p><strong>0</strong> urgent items</p></div></div></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>Client Portal Preview</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/support/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Support Center - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/docs/">Docs</a><a href="/en/status/">Status</a><a href="/support/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Support Center</h1><p>24/7 NOC, ticket support, remote-hands and change window management.</p></div><div class="grid-3"><div class="card"><h3>Incident Tickets</h3><p>Network outage, packet loss, instance faults and hardware alerts.</p></div><div class="card"><h3>Change Requests</h3><p>OS reinstall, bandwidth changes, IP allocation and route policy updates.</p></div><div class="card"><h3>Billing Support</h3><p>Renewal, invoices, order changes and contract verification.</p></div></div><div class="card" style="margin-top:18px"><h3>Contact</h3><p>Support email: <a href="mailto:${email_html}">${email_html}</a></p></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/login/">Client Login</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/docs/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Documentation - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/products/cloud.html">Products</a><a href="/en/support/">Support</a><a href="/docs/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Documentation</h1><p>Delivery, network, system and security operation guides.</p></div><div class="grid-3"><div class="card"><h3>Getting Started</h3><p>Login, review services, set security email and create tickets.</p><p><span class="kbd">GETTING STARTED</span></p></div><div class="card"><h3>Network Diagnosis</h3><p>Submit MTR, Ping, Traceroute and port test results.</p><p><span class="kbd">NETWORK</span></p></div><div class="card"><h3>Security Advice</h3><p>SSH keys, system updates, firewall and backup policies.</p><p><span class="kbd">SECURITY</span></p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>Docs</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/announcements/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Announcements - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/status/">Status</a><a href="/en/support/">Support</a><a href="/announcements/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Announcements</h1><p>Maintenance windows, service adjustments and security notices.</p></div><div class="card notice-list"><div class="notice"><span>Core network routine inspection completed with no abnormalities.</span><strong>2026-06-14</strong></div><div class="notice"><span>New NVMe storage pool is available.</span><strong>2026-06-08</strong></div><div class="notice"><span>Client portal ticket categories have been updated.</span><strong>2026-06-01</strong></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>Announcements</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
   cat > "$SITE_ROOT/robots.txt" <<EOF
 User-agent: *
 Allow: /
@@ -477,7 +628,25 @@ EOF
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://${DOMAIN}/</loc></url>
   <url><loc>https://${DOMAIN}/en/</loc></url>
+  <url><loc>https://${DOMAIN}/products/cloud.html</loc></url>
+  <url><loc>https://${DOMAIN}/products/dedicated.html</loc></url>
+  <url><loc>https://${DOMAIN}/products/colocation.html</loc></url>
+  <url><loc>https://${DOMAIN}/login/</loc></url>
+  <url><loc>https://${DOMAIN}/register/</loc></url>
+  <url><loc>https://${DOMAIN}/console/</loc></url>
+  <url><loc>https://${DOMAIN}/support/</loc></url>
+  <url><loc>https://${DOMAIN}/docs/</loc></url>
+  <url><loc>https://${DOMAIN}/announcements/</loc></url>
   <url><loc>https://${DOMAIN}/status/</loc></url>
+  <url><loc>https://${DOMAIN}/en/products/cloud.html</loc></url>
+  <url><loc>https://${DOMAIN}/en/products/dedicated.html</loc></url>
+  <url><loc>https://${DOMAIN}/en/products/colocation.html</loc></url>
+  <url><loc>https://${DOMAIN}/en/login/</loc></url>
+  <url><loc>https://${DOMAIN}/en/register/</loc></url>
+  <url><loc>https://${DOMAIN}/en/console/</loc></url>
+  <url><loc>https://${DOMAIN}/en/support/</loc></url>
+  <url><loc>https://${DOMAIN}/en/docs/</loc></url>
+  <url><loc>https://${DOMAIN}/en/announcements/</loc></url>
   <url><loc>https://${DOMAIN}/en/status/</loc></url>
   <url><loc>https://${DOMAIN}/legal/terms.html</loc></url>
   <url><loc>https://${DOMAIN}/legal/privacy.html</loc></url>
