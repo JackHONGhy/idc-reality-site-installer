@@ -144,7 +144,7 @@ prepare_paths() {
   NGINX_CONF=""
 
   mkdir -p "$SITE_ROOT"
-  mkdir -p "$SITE_ROOT/en" "$SITE_ROOT/en/legal" "$SITE_ROOT/en/status" "$SITE_ROOT/en/products" "$SITE_ROOT/en/login" "$SITE_ROOT/en/register" "$SITE_ROOT/en/console" "$SITE_ROOT/en/support" "$SITE_ROOT/en/docs" "$SITE_ROOT/en/announcements" "$SITE_ROOT/assets" "$SITE_ROOT/legal" "$SITE_ROOT/status" "$SITE_ROOT/products" "$SITE_ROOT/login" "$SITE_ROOT/register" "$SITE_ROOT/console" "$SITE_ROOT/support" "$SITE_ROOT/docs" "$SITE_ROOT/announcements" "$SITE_ROOT/.well-known"
+  mkdir -p "$SITE_ROOT/en" "$SITE_ROOT/en/legal" "$SITE_ROOT/en/status" "$SITE_ROOT/en/products" "$SITE_ROOT/en/login" "$SITE_ROOT/en/register" "$SITE_ROOT/en/console" "$SITE_ROOT/en/support" "$SITE_ROOT/en/docs" "$SITE_ROOT/en/announcements" "$SITE_ROOT/en/about" "$SITE_ROOT/en/network" "$SITE_ROOT/en/sla" "$SITE_ROOT/en/looking-glass" "$SITE_ROOT/assets" "$SITE_ROOT/legal" "$SITE_ROOT/status" "$SITE_ROOT/products" "$SITE_ROOT/login" "$SITE_ROOT/register" "$SITE_ROOT/console" "$SITE_ROOT/support" "$SITE_ROOT/docs" "$SITE_ROOT/announcements" "$SITE_ROOT/about" "$SITE_ROOT/network" "$SITE_ROOT/sla" "$SITE_ROOT/looking-glass" "$SITE_ROOT/.well-known"
 
   if [ -d /etc/nginx/sites-available ] && [ -d /etc/nginx/sites-enabled ]; then
     NGINX_CONF="/etc/nginx/sites-available/${DOMAIN}.conf"
@@ -338,19 +338,19 @@ render_site() {
   <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-  <div class="topbar"><div class="container"><span>企业级 IDC、网络与云基础设施服务</span><span>7x24 运维支持 · SLA 保障 · 多线路接入</span></div></div>
+  <div class="topbar"><div class="container"><span>跨区域 IDC、云计算与网络基础设施服务</span><span>Global NOC · Multi-region PoP · SLA 保障 · 企业级交付</span></div></div>
   <nav class="nav"><div class="container nav-inner">
     <a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a>
     <div class="nav-links">
-      <a href="/products/cloud.html">产品</a><a href="/docs/">文档</a><a href="/support/">支持</a><a href="/status/">状态</a><a href="/login/">登录</a>
+      <a href="/products/cloud.html">产品</a><a href="/network/">网络</a><a href="/docs/">文档</a><a href="/support/">支持</a><a href="/about/">关于</a><a href="/login/">登录</a>
       <span class="lang"><a class="active" href="/">中文</a><a href="/en/">English</a></span>
     </div>
   </div></nav>
   <header class="hero"><div class="container">
     <div>
-      <span class="eyebrow">Reliable Infrastructure</span>
-      <h1>面向企业业务的稳定云与 IDC 基础设施</h1>
-      <p>${brand_cn_html} 为企业提供云服务器、独立服务器、机柜托管、BGP 网络接入和持续运维支持，帮助业务在安全、稳定、可扩展的环境中运行。</p>
+      <span class="eyebrow">Global Data Center Network</span>
+      <h1>面向跨国业务的 IDC、云计算与网络基础设施</h1>
+      <p>${brand_cn_html} 为企业提供多区域云服务器、独立服务器、机柜托管、BGP 网络接入、灾备规划和 7x24 Global NOC 支持，帮助业务在安全、稳定、可扩展的环境中运行。</p>
       <div class="hero-actions"><a class="btn primary" href="/register/">获取方案</a><a class="btn secondary" href="/login/">客户登录</a></div>
     </div>
     <div class="infra-card">
@@ -360,16 +360,24 @@ render_site() {
         <div class="rack-row"><span class="dot"></span> Border Gateway</div>
         <div class="rack-row"><span class="dot"></span> Monitoring & Backup</div>
       </div>
-      <div class="metrics"><div class="metric"><strong>99.9%</strong><span>SLA</span></div><div class="metric"><strong>24/7</strong><span>NOC</span></div><div class="metric"><strong>10G+</strong><span>Uplink</span></div></div>
+      <div class="metrics"><div class="metric"><strong>99.95%</strong><span>SLA</span></div><div class="metric"><strong>24/7</strong><span>Global NOC</span></div><div class="metric"><strong>10G+</strong><span>Uplink</span></div></div>
     </div>
   </div></header>
   <main>
     <section id="services"><div class="container">
-      <div class="section-head"><h2>基础设施服务</h2><p>从轻量云服务器到独立物理资源，为不同阶段的业务提供清晰、可靠的部署选项。</p></div>
+      <div class="section-head"><h2>全球基础设施服务</h2><p>从多区域云服务器到独立物理资源、跨境互联和托管服务，为国际业务提供清晰、可靠的部署选项。</p></div>
       <div class="grid-3">
-        <article class="card"><h3>云服务器</h3><p>弹性计算实例、快照备份、独立公网 IP 和按需扩容。</p><div class="list"><span>适合网站、API、业务后台</span><span>支持快速交付和资源升级</span></div></article>
-        <article class="card"><h3>独立服务器</h3><p>独享 CPU、内存、磁盘和网络资源，适合高负载业务。</p><div class="list"><span>可选 NVMe 与大容量存储</span><span>硬件监控与远程协助</span></div></article>
-        <article class="card"><h3>机柜托管</h3><p>标准机柜、电力、带宽、IP 资源和现场运维支持。</p><div class="list"><span>规范化上架与资产记录</span><span>远程重启与工单支持</span></div></article>
+        <article class="card"><h3>多区域云服务器</h3><p>弹性计算实例、快照备份、独立公网 IP 和按需扩容。</p><div class="list"><span>适合全球官网、API、业务后台</span><span>支持跨区域交付和资源升级</span></div></article>
+        <article class="card"><h3>独立服务器</h3><p>独享 CPU、内存、磁盘和网络资源，适合高负载业务。</p><div class="list"><span>可选 NVMe 与大容量存储</span><span>硬件监控、远程协助和资产记录</span></div></article>
+        <article class="card"><h3>数据中心托管</h3><p>标准机柜、电力、带宽、IP 资源和现场运维支持。</p><div class="list"><span>规范化上架、布线和资产管理</span><span>远程重启、现场巡检与工单支持</span></div></article>
+      </div>
+    </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>区域与互联能力</h2><p>面向跨国业务部署，提供亚洲、北美、欧洲等方向的接入规划和网络排查支持。</p></div>
+      <div class="grid-3">
+        <article class="card"><h3>Asia Pacific</h3><p>适合低延迟 API、企业网站、移动应用和跨境业务入口。</p></article>
+        <article class="card"><h3>North America</h3><p>适合 SaaS、内容分发、企业后台和数据处理任务。</p></article>
+        <article class="card"><h3>Europe</h3><p>适合合规要求更高的业务、备份节点和多区域容灾。</p></article>
       </div>
     </div></section>
     <section><div class="container">
@@ -399,7 +407,7 @@ render_site() {
       </div>
     </div></section>
     <section><div class="container">
-      <div class="section-head"><h2>客户门户</h2><p>客户可以通过门户查看服务、账单、工单、网络状态和维护公告。演示页面不会采集真实密码。</p></div>
+      <div class="section-head"><h2>企业客户门户</h2><p>客户可以通过门户查看多区域服务、账单、工单、网络状态、维护公告和资产记录。演示页面不会采集真实密码。</p></div>
       <div class="grid-3">
         <article class="card"><h3>服务管理</h3><p>查看实例状态、到期时间、带宽用量和基础资源信息。</p></article>
         <article class="card"><h3>工单支持</h3><p>提交故障、变更、续费、网络排查和远程协助请求。</p></article>
@@ -435,19 +443,19 @@ EOF
   <link rel="stylesheet" href="/assets/site.css">
 </head>
 <body>
-  <div class="topbar"><div class="container"><span>Enterprise IDC, network and cloud infrastructure</span><span>24/7 operations · SLA backed · Multi-carrier connectivity</span></div></div>
+  <div class="topbar"><div class="container"><span>Multi-region IDC, cloud and network infrastructure</span><span>Global NOC · Multi-region PoP · SLA backed · Enterprise delivery</span></div></div>
   <nav class="nav"><div class="container nav-inner">
     <a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a>
     <div class="nav-links">
-      <a href="/en/products/cloud.html">Products</a><a href="/en/docs/">Docs</a><a href="/en/support/">Support</a><a href="/en/status/">Status</a><a href="/en/login/">Login</a>
+      <a href="/en/products/cloud.html">Products</a><a href="/en/network/">Network</a><a href="/en/docs/">Docs</a><a href="/en/support/">Support</a><a href="/en/about/">About</a><a href="/en/login/">Login</a>
       <span class="lang"><a href="/">中文</a><a class="active" href="/en/">English</a></span>
     </div>
   </div></nav>
   <header class="hero"><div class="container">
     <div>
-      <span class="eyebrow">Reliable Infrastructure</span>
-      <h1>Stable cloud and IDC infrastructure for production workloads</h1>
-      <p>${brand_en_html} delivers cloud servers, dedicated servers, colocation, BGP connectivity and managed support for teams that need predictable infrastructure.</p>
+      <span class="eyebrow">Global Data Center Network</span>
+      <h1>IDC, cloud and network infrastructure for international workloads</h1>
+      <p>${brand_en_html} delivers multi-region cloud servers, dedicated servers, colocation, BGP connectivity, disaster recovery planning and 24/7 Global NOC support for production teams.</p>
       <div class="hero-actions"><a class="btn primary" href="/en/register/">Request a plan</a><a class="btn secondary" href="/en/login/">Client login</a></div>
     </div>
     <div class="infra-card">
@@ -457,16 +465,24 @@ EOF
         <div class="rack-row"><span class="dot"></span> Border Gateway</div>
         <div class="rack-row"><span class="dot"></span> Monitoring & Backup</div>
       </div>
-      <div class="metrics"><div class="metric"><strong>99.9%</strong><span>SLA</span></div><div class="metric"><strong>24/7</strong><span>NOC</span></div><div class="metric"><strong>10G+</strong><span>Uplink</span></div></div>
+      <div class="metrics"><div class="metric"><strong>99.95%</strong><span>SLA</span></div><div class="metric"><strong>24/7</strong><span>Global NOC</span></div><div class="metric"><strong>10G+</strong><span>Uplink</span></div></div>
     </div>
   </div></header>
   <main>
     <section id="services"><div class="container">
-      <div class="section-head"><h2>Infrastructure Services</h2><p>Clear deployment choices from elastic virtual machines to dedicated hardware resources.</p></div>
+      <div class="section-head"><h2>Global Infrastructure Services</h2><p>Clear deployment options for international workloads, from multi-region cloud servers to dedicated hardware and colocation.</p></div>
       <div class="grid-3">
-        <article class="card"><h3>Cloud Servers</h3><p>Elastic compute, snapshots, dedicated public IPs and practical scaling options.</p><div class="list"><span>Websites, APIs and business systems</span><span>Fast delivery and resource upgrades</span></div></article>
-        <article class="card"><h3>Dedicated Servers</h3><p>Dedicated CPU, memory, disks and network resources for demanding workloads.</p><div class="list"><span>NVMe and high-capacity storage options</span><span>Hardware monitoring and remote support</span></div></article>
-        <article class="card"><h3>Colocation</h3><p>Rack space, power, bandwidth, IP resources and remote-hands support.</p><div class="list"><span>Structured deployment and asset tracking</span><span>Remote reboot and ticket support</span></div></article>
+        <article class="card"><h3>Multi-region Cloud</h3><p>Elastic compute, snapshots, dedicated public IPs and practical scaling options.</p><div class="list"><span>Global websites, APIs and business systems</span><span>Cross-region delivery and resource upgrades</span></div></article>
+        <article class="card"><h3>Dedicated Servers</h3><p>Dedicated CPU, memory, disks and network resources for demanding workloads.</p><div class="list"><span>NVMe and high-capacity storage options</span><span>Hardware monitoring, remote hands and asset records</span></div></article>
+        <article class="card"><h3>Data Center Colocation</h3><p>Rack space, power, bandwidth, IP resources and remote-hands support.</p><div class="list"><span>Structured rack, cabling and asset management</span><span>Remote reboot, inspection and ticket support</span></div></article>
+      </div>
+    </div></section>
+    <section><div class="container">
+      <div class="section-head"><h2>Regions and Interconnect</h2><p>Designed for international deployments with access planning and troubleshooting support across Asia Pacific, North America and Europe.</p></div>
+      <div class="grid-3">
+        <article class="card"><h3>Asia Pacific</h3><p>For low-latency APIs, business websites, mobile applications and cross-border entry points.</p></article>
+        <article class="card"><h3>North America</h3><p>For SaaS platforms, content delivery, enterprise systems and data processing workloads.</p></article>
+        <article class="card"><h3>Europe</h3><p>For compliance-sensitive workloads, backup nodes and multi-region recovery plans.</p></article>
       </div>
     </div></section>
     <section><div class="container">
@@ -496,7 +512,7 @@ EOF
       </div>
     </div></section>
     <section><div class="container">
-      <div class="section-head"><h2>Client Portal</h2><p>Customers can review services, billing, tickets, network status and maintenance notices. Demo pages do not collect real passwords.</p></div>
+      <div class="section-head"><h2>Enterprise Client Portal</h2><p>Customers can review multi-region services, billing, tickets, network status, maintenance notices and asset records. Demo pages do not collect real passwords.</p></div>
       <div class="grid-3">
         <article class="card"><h3>Service Management</h3><p>Review instance status, expiration dates, bandwidth usage and resource details.</p></article>
         <article class="card"><h3>Ticket Support</h3><p>Submit incident, change, billing, network and remote-hands requests.</p></article>
@@ -538,11 +554,11 @@ EOF
 EOF
 
   cat > "$SITE_ROOT/status/index.html" <<EOF
-<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>服务状态 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/">首页</a><a href="/en/">English</a></div></div></nav><section><div class="container"><h1>服务状态</h1><div class="grid-3"><div class="card"><span class="status-pill">Operational</span><h3>核心网络</h3><p>运行正常</p></div><div class="card"><span class="status-pill">Operational</span><h3>计算资源</h3><p>运行正常</p></div><div class="card"><span class="status-pill">Operational</span><h3>客户支持</h3><p>运行正常</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>${domain_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>服务状态 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/">首页</a><a href="/network/">网络</a><a href="/en/status/">English</a></div></div></nav><section><div class="container"><h1>全球服务状态</h1><div class="grid-3"><div class="card"><span class="status-pill">Operational</span><h3>Asia Pacific Network</h3><p>运行正常</p></div><div class="card"><span class="status-pill">Operational</span><h3>North America Compute</h3><p>运行正常</p></div><div class="card"><span class="status-pill">Operational</span><h3>Global NOC</h3><p>运行正常</p></div></div><div class="card notice-list" style="margin-top:18px"><div class="notice"><span>跨区域监控系统未检测到大范围异常。</span><strong>实时</strong></div><div class="notice"><span>计划维护会提前通过公告和工单通知客户。</span><strong>Policy</strong></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>${domain_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
 EOF
 
   cat > "$SITE_ROOT/en/status/index.html" <<EOF
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Service Status - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/">Home</a><a href="/status/">中文</a></div></div></nav><section><div class="container"><h1>Service Status</h1><div class="grid-3"><div class="card"><span class="status-pill">Operational</span><h3>Core Network</h3><p>Operating normally</p></div><div class="card"><span class="status-pill">Operational</span><h3>Compute Resources</h3><p>Operating normally</p></div><div class="card"><span class="status-pill">Operational</span><h3>Customer Support</h3><p>Operating normally</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>${domain_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Service Status - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/">Home</a><a href="/en/network/">Network</a><a href="/status/">中文</a></div></div></nav><section><div class="container"><h1>Global Service Status</h1><div class="grid-3"><div class="card"><span class="status-pill">Operational</span><h3>Asia Pacific Network</h3><p>Operating normally</p></div><div class="card"><span class="status-pill">Operational</span><h3>North America Compute</h3><p>Operating normally</p></div><div class="card"><span class="status-pill">Operational</span><h3>Global NOC</h3><p>Operating normally</p></div></div><div class="card notice-list" style="margin-top:18px"><div class="notice"><span>No broad issue has been detected by cross-region monitoring.</span><strong>Live</strong></div><div class="notice"><span>Scheduled maintenance is announced through notices and tickets.</span><strong>Policy</strong></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>${domain_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
 EOF
 
   cat > "$SITE_ROOT/products/cloud.html" <<EOF
@@ -617,6 +633,38 @@ EOF
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Announcements - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/status/">Status</a><a href="/en/support/">Support</a><a href="/announcements/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Announcements</h1><p>Maintenance windows, service adjustments and security notices.</p></div><div class="card notice-list"><div class="notice"><span>Core network routine inspection completed with no abnormalities.</span><strong>2026-06-14</strong></div><div class="notice"><span>New NVMe storage pool is available.</span><strong>2026-06-08</strong></div><div class="notice"><span>Client portal ticket categories have been updated.</span><strong>2026-06-01</strong></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>Announcements</span></div></footer><script src="/assets/site.js"></script></body></html>
 EOF
 
+  cat > "$SITE_ROOT/about/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>关于我们 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/products/cloud.html">产品</a><a href="/network/">网络</a><a href="/support/">支持</a><a href="/en/about/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>关于 ${brand_cn_html}</h1><p>我们定位为跨国 IDC 与云基础设施服务商，面向全球业务提供多区域计算、网络互联、托管、灾备和运维支持。</p></div><div class="grid-3"><div class="card"><h3>全球交付</h3><p>围绕亚洲、北美、欧洲等业务区域规划计算资源、公网地址、网络线路和维护窗口。</p></div><div class="card"><h3>Global NOC</h3><p>故障以工单记录为准，紧急事件优先处理，跨时区团队按照确认、执行、回执流程协作。</p></div><div class="card"><h3>合规与透明</h3><p>维护、网络调整、证书更新、服务变更和安全通知通过公告、邮件或工单同步。</p></div></div><div class="card" style="margin-top:18px"><h3>服务范围</h3><div class="list"><span>多区域 Linux / Windows 基础环境交付</span><span>实例迁移、快照、跨区域备份和恢复建议</span><span>网络连通性排查、带宽使用分析和路由优化</span><span>独立服务器、托管设备和跨区域灾备远程协助</span></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>${email_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/network/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>全球网络能力 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/looking-glass/">Looking Glass</a><a href="/sla/">SLA</a><a href="/status/">状态</a><a href="/en/network/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>全球网络能力</h1><p>围绕跨国访问、线路稳定性、国际互联和故障排查效率设计网络服务。</p></div><div class="grid-3"><div class="card"><h3>BGP 与多区域 PoP</h3><p>支持多线路接入和按业务区域规划路由策略，适合 API、官网、SaaS 和后台服务。</p></div><div class="card"><h3>IPv4 / IPv6</h3><p>按资源类型分配公网地址，支持基础 ACL、反向解析和地址变更记录。</p></div><div class="card"><h3>Global Monitoring</h3><p>持续关注延迟、丢包、带宽趋势、端口可用性、节点健康状态和跨区域链路质量。</p></div></div><table class="spec-table" style="margin-top:18px"><thead><tr><th>区域</th><th>建议用途</th><th>网络特点</th><th>排查方式</th></tr></thead><tbody><tr><td>Asia Pacific</td><td>网站、API、低延迟访问</td><td>优先低延迟线路</td><td>MTR / Ping / TCPing</td></tr><tr><td>North America</td><td>SaaS、企业系统、数据处理</td><td>稳定吞吐与国际互联</td><td>Traceroute / Port test</td></tr><tr><td>Europe</td><td>合规业务、备份节点、灾备</td><td>强调稳定性和维护窗口</td><td>双向路由对比</td></tr></tbody></table></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/looking-glass/">网络测试</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/sla/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SLA 服务等级 - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/network/">网络</a><a href="/status/">状态</a><a href="/support/">支持</a><a href="/en/sla/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>SLA 服务等级</h1><p>服务等级说明用于明确响应优先级、维护窗口和问题跟踪方式。</p></div><table class="spec-table"><thead><tr><th>级别</th><th>场景</th><th>首次响应</th><th>处理方式</th></tr></thead><tbody><tr><td>P1 紧急</td><td>核心服务不可用、大范围网络异常</td><td>15 分钟内</td><td>NOC 优先处理并持续回报</td></tr><tr><td>P2 高</td><td>单实例故障、明显丢包或性能异常</td><td>30 分钟内</td><td>定位影响范围并给出处理建议</td></tr><tr><td>P3 常规</td><td>系统重装、配置变更、账务咨询</td><td>4 小时内</td><td>按工单顺序处理</td></tr></tbody></table><div class="grid-2" style="margin-top:18px"><div class="card"><h3>维护窗口</h3><p>计划维护会提前公告，涉及客户资源的变更会通过工单或邮件确认。</p></div><div class="card"><h3>客户配合</h3><p>网络问题建议提供源 IP、目标 IP、时间段、MTR 和端口测试结果。</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span>SLA</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/looking-glass/index.html" <<EOF
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Looking Glass - ${brand_cn_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/"><span class="brand-mark">I</span><span>${brand_cn_html}</span></a><div class="nav-links"><a href="/network/">网络</a><a href="/support/">支持</a><a href="/en/looking-glass/">English</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Looking Glass</h1><p>网络测试说明页面，用于指导客户提交可复现的连通性数据。</p></div><div class="grid-3"><div class="card"><h3>Ping</h3><p>用于快速判断目标是否可达和基础延迟。示例：<span class="kbd">ping example.com</span></p></div><div class="card"><h3>MTR</h3><p>用于持续观察路径丢包和跳点延迟。示例：<span class="kbd">mtr -rw example.com</span></p></div><div class="card"><h3>TCPing</h3><p>用于确认业务端口连通性。示例：<span class="kbd">tcping example.com 443</span></p></div></div><div class="card" style="margin-top:18px"><h3>提交工单时请包含</h3><div class="list"><span>测试源网络和公网 IP</span><span>目标域名、目标 IP 和端口</span><span>问题发生时间段和截图</span><span>MTR、Traceroute 或端口测试结果</span></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_cn_html}</span><span><a href="/support/">提交工单</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/about/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>About - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/products/cloud.html">Products</a><a href="/en/network/">Network</a><a href="/en/support/">Support</a><a href="/about/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>About ${brand_en_html}</h1><p>We operate as a multi-region IDC and cloud infrastructure provider for international workloads, interconnectivity, colocation, recovery planning and managed operations.</p></div><div class="grid-3"><div class="card"><h3>Global Delivery</h3><p>Compute resources, public addressing, network routes and maintenance windows are planned by business region.</p></div><div class="card"><h3>Global NOC</h3><p>Incidents are tracked by tickets, urgent events are prioritized, and cross-timezone teams follow confirmation, execution and report-back workflows.</p></div><div class="card"><h3>Compliance and Transparency</h3><p>Maintenance, network adjustments, certificate renewal, service changes and security notices are shared through notices, email or tickets.</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>${email_html}</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/network/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Global Network - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/looking-glass/">Looking Glass</a><a href="/en/sla/">SLA</a><a href="/en/status/">Status</a><a href="/network/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Global Network</h1><p>Network services are designed for international access, route stability, interconnectivity and troubleshooting efficiency.</p></div><div class="grid-3"><div class="card"><h3>BGP and Multi-region PoP</h3><p>Multi-carrier access and route planning can be selected by business region for APIs, websites, SaaS and back-office systems.</p></div><div class="card"><h3>IPv4 / IPv6</h3><p>Public addressing, basic ACLs, reverse DNS and change records are available by resource type.</p></div><div class="card"><h3>Global Monitoring</h3><p>Latency, packet loss, bandwidth trends, port availability, node health and cross-region link quality are monitored.</p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/looking-glass/">Network tests</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/sla/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>SLA - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/network/">Network</a><a href="/en/status/">Status</a><a href="/en/support/">Support</a><a href="/sla/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>SLA</h1><p>Service levels clarify response priorities, maintenance windows and issue tracking.</p></div><table class="spec-table"><thead><tr><th>Priority</th><th>Scenario</th><th>First response</th><th>Workflow</th></tr></thead><tbody><tr><td>P1 Critical</td><td>Core service unavailable or broad network incident</td><td>Within 15 minutes</td><td>NOC priority handling and ongoing updates</td></tr><tr><td>P2 High</td><td>Single instance failure, packet loss or performance issue</td><td>Within 30 minutes</td><td>Scope confirmation and remediation guidance</td></tr><tr><td>P3 Standard</td><td>OS reinstall, config changes and billing questions</td><td>Within 4 hours</td><td>Handled by ticket order</td></tr></tbody></table></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span>SLA</span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
+  cat > "$SITE_ROOT/en/looking-glass/index.html" <<EOF
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Looking Glass - ${brand_en_html}</title><link rel="stylesheet" href="/assets/site.css"></head><body><nav class="nav"><div class="container nav-inner"><a class="brand" href="/en/"><span class="brand-mark">I</span><span>${brand_en_html}</span></a><div class="nav-links"><a href="/en/network/">Network</a><a href="/en/support/">Support</a><a href="/looking-glass/">中文</a></div></div></nav><section><div class="container"><div class="section-head"><h1>Looking Glass</h1><p>Guidance for customers to provide reproducible connectivity diagnostics.</p></div><div class="grid-3"><div class="card"><h3>Ping</h3><p>Check reachability and baseline latency. Example: <span class="kbd">ping example.com</span></p></div><div class="card"><h3>MTR</h3><p>Observe route loss and hop latency. Example: <span class="kbd">mtr -rw example.com</span></p></div><div class="card"><h3>TCPing</h3><p>Verify service port connectivity. Example: <span class="kbd">tcping example.com 443</span></p></div></div></div></section><footer><div class="container"><span>© <span data-year></span> ${brand_en_html}</span><span><a href="/en/support/">Submit ticket</a></span></div></footer><script src="/assets/site.js"></script></body></html>
+EOF
+
   cat > "$SITE_ROOT/robots.txt" <<EOF
 User-agent: *
 Allow: /
@@ -637,6 +685,10 @@ EOF
   <url><loc>https://${DOMAIN}/support/</loc></url>
   <url><loc>https://${DOMAIN}/docs/</loc></url>
   <url><loc>https://${DOMAIN}/announcements/</loc></url>
+  <url><loc>https://${DOMAIN}/about/</loc></url>
+  <url><loc>https://${DOMAIN}/network/</loc></url>
+  <url><loc>https://${DOMAIN}/sla/</loc></url>
+  <url><loc>https://${DOMAIN}/looking-glass/</loc></url>
   <url><loc>https://${DOMAIN}/status/</loc></url>
   <url><loc>https://${DOMAIN}/en/products/cloud.html</loc></url>
   <url><loc>https://${DOMAIN}/en/products/dedicated.html</loc></url>
@@ -647,6 +699,10 @@ EOF
   <url><loc>https://${DOMAIN}/en/support/</loc></url>
   <url><loc>https://${DOMAIN}/en/docs/</loc></url>
   <url><loc>https://${DOMAIN}/en/announcements/</loc></url>
+  <url><loc>https://${DOMAIN}/en/about/</loc></url>
+  <url><loc>https://${DOMAIN}/en/network/</loc></url>
+  <url><loc>https://${DOMAIN}/en/sla/</loc></url>
+  <url><loc>https://${DOMAIN}/en/looking-glass/</loc></url>
   <url><loc>https://${DOMAIN}/en/status/</loc></url>
   <url><loc>https://${DOMAIN}/legal/terms.html</loc></url>
   <url><loc>https://${DOMAIN}/legal/privacy.html</loc></url>
