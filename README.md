@@ -19,7 +19,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/JackHONGhy/idc-reality-site-
 请输入域名，例如 example.com：
 请输入中文网站名称：
 请输入英文网站名称：
-请输入证书和联系邮箱：
+请输入用于申请 SSL 证书的联系邮箱：
 请输入网站安装基础目录：
 是否自动申请 Let's Encrypt SSL 证书：
 ```

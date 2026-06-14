@@ -676,7 +676,7 @@ main() {
   validate_domain "$DOMAIN"
   prompt_default BRAND_CN "请输入中文网站名称" "凌云数据中心"
   prompt_default BRAND_EN "请输入英文网站名称" "Lingyun Data Center"
-  prompt_required CONTACT_EMAIL "请输入证书和联系邮箱："
+  prompt_required CONTACT_EMAIL "请输入用于申请 SSL 证书的联系邮箱："
   prompt_default INSTALL_BASE "请输入网站安装基础目录" "$DEFAULT_INSTALL_BASE"
   prompt_yes_no INSTALL_CERT "是否自动申请 Let's Encrypt SSL 证书" "y"
 
